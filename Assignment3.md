@@ -4,7 +4,9 @@ So you just created new debian droplet on Digital Ocean. It's best practice to h
 than working directly with the root user and disable remote SSH access to the root user. This is so your web 
 server can be protected from hackers looking to take control as the root has all permissions.
 
-1. The first thing you should do with this new droplet is create a new user with sudo command permissions.
+1. Create a User
+
+The first thing you should do with this new droplet is create a new user with sudo command permissions.
 Creating a user can be done by typing the command `useradd` but don't execute it quite yet because we are going 
 to add options for a home directory and default shell.
 
@@ -17,13 +19,16 @@ The final command cammand to execute becomes:
 
 Congratulations you now have a user but you aren't finished here. 
 
-2. The new user needs a password
+2. Give User a Password
+   
+The new user needs a password
 add a password with the command:
 ```passwrd <username>```
 This command will prompt you to enter the password twice but won't display the typed password. 
 This is for security reasons.
 
-3. Now to grant the user sudo command access
+3. Grant the user sudo command access
+
 To have access to the sudo command the user must be made a part of the sudo group.
 A group is collection of users in a linux OS.
 The sudo group is the name of the administrator group for debian.
@@ -37,6 +42,7 @@ The final command cammand to execute becomes:
 ```usermod -aG sudo <username>```
 
 4. Enable ssh for the new user
+
 The `ssh` command won't work automatically for your created user.
 This is a simple fix to enable this.
 Using the root user type the command:
@@ -55,6 +61,7 @@ The final command will have the structure:
 You are now ready to test the new user.
 
 5. Test your new user
+
 Now that your user is all configured it's good to test if it's working before the next step
 exit the droplet with `exit`. Attempt to ssh into the droplet with your new user with this command on your host:
 
@@ -72,7 +79,8 @@ If not there is something wrong with your `usermod` command and you should resta
 
 Congratulations your new user now has sudo command access
 
-5. Close access to the Remote Access to the root user
+6. Close access to the Remote Access to the root user
+
 As your new user you need to find a edit the sshd_config file.
 This file is located in the /etc/ssh/ directory.
 edit the file with vim (sudo is required)
