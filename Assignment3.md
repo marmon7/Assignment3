@@ -6,7 +6,7 @@ server can be protected from hackers looking to take control as the root has all
 
 1. Create a User
 
-The first thing you should do with this new droplet is create a new user with sudo command permissions.
+The first thing you should do with this new droplet is create a new user with `sudo` command permissions.
 Creating a user can be done by typing the command `useradd` but don't execute it quite yet because we are going 
 to add options for a home directory and default shell.
 
@@ -14,7 +14,7 @@ options:
 -m : creates a home directory for that user based on the skeleton directory predefined by the system
 -s : specifies the default shell foe that user (we will be using bash as the default)
 
-The final command cammand to execute becomes:
+The final command to execute becomes:
 ```useradd -ms /bin/bash <username>```
 
 Congratulations you now have a user but you aren't finished here. 
@@ -23,7 +23,7 @@ Congratulations you now have a user but you aren't finished here.
    
 The new user needs a password
 add a password with the command:
-```passwrd <username>```
+```passwd <username>```
 This command will prompt you to enter the password twice but won't display the typed password. 
 This is for security reasons.
 
@@ -33,12 +33,12 @@ To have access to the sudo command the user must be made a part of the sudo grou
 A group is collection of users in a linux OS.
 The sudo group is the name of the administrator group for debian.
 a user can be made a part of a group with the `usermod` command 
-but we will be modifying the options to fit our needs.
+We will be using these options to fit our needs.
 options:
 -a : append to group (adds user to group)
 -G : specifies a group name
 
-The final command cammand to execute becomes:
+The final command to execute becomes:
 ```usermod -aG sudo <username>```
 
 4. Enable ssh for the new user
@@ -66,7 +66,7 @@ Now that your user is all configured it's good to test if it's working before th
 exit the droplet with `exit`. Attempt to ssh into the droplet with your new user with this command on your host:
 
 ```ssh -i <sshkey-path> <username>@<droplet-ip-address>```
-basically replace root with the username
+basically replace root with the username in your original ssh command
 
 if the droplet logs you in and the bash shell loads up this is what you want
 otherwise check your `ssh` command for any typos
@@ -98,5 +98,3 @@ now attempt to login your droplet with root user
 if it gives you permission denied you are done with part 1. Well done.
 
 ## Part 2: Configure a Basic nginx Web Server
-
-
