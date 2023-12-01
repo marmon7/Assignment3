@@ -98,3 +98,46 @@ now attempt to login your droplet with root user
 if it gives you permission denied you are done with part 1. Well done.
 
 ## Part 2: Configure a Basic nginx Web Server
+1. Install nginx
+
+On your droplet installing nginx is simple just use `sudo apt install` using your freshly made sudo user.
+
+```sudo apt install nginx```
+
+You have now installed nginx
+You can verify that nginx is installed correctly by typing:
+```curl <your-ip-address>```
+
+if you see the default html for nginx you were successful.
+
+2. Create a Sample html Document
+
+Create a new directory in `/var/www/` called `my-site` (remember to sudo):
+```sudo mkdir /var/www/my-site/```
+
+In bash create a new file called `index.html` inside the my-site directory with `sudo vim`:
+```sudo vim /var/www/my-site/index.html```
+Put the following code into this file and save:
+```<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2420</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello, World</h1>
+</body>
+</html>```
