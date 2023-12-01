@@ -1,4 +1,4 @@
-# How to Create a Sudo User and Configure a Basic nginx Web Server on a Digitial Ocean Droplet
+# How to Create a Sudo User and Configure nginx on a DigitalOcean Droplet
 ## Part 1: Creating a Sudo User
 So you just created new debian droplet on Digital Ocean. It's best practice to have a sudo enabled user rather
 than working directly with the root user and disable remote SSH access to the root user. This is so your web 
@@ -6,28 +6,24 @@ server can be protected from hackers looking to take control as the root has all
 
 1. **Create a User**
 
-The first thing you should do with this new droplet is create a new user with `sudo` command permissions.
-Creating a user can be done by typing the command `useradd` but don't execute it quite yet because we are going 
-to add options for a home directory and default shell.
+The first thing you should do with this new droplet is create a new user with `sudo` command permissions.  
+Creating a user can be done by typing the command `useradd` but don't execute it quite yet because we are going to add options for a home directory and default shell.
 
-options:
--m : creates a home directory for that user based on the skeleton directory predefined by the system
--s : specifies the default shell foe that user (we will be using bash as the default)
+options:  
+-m : creates a home directory for the user based on a skeleton directory in the OS  
+-s : specifies the default shell for that user (we will be using bash as the default)
 
-The final command to execute becomes:
-```useradd -ms /bin/bash <username>```
+The final command to execute becomes: 
+
+```useradd -ms /bin/bash <username>```  
 
 Congratulations you now have a user but you aren't finished here. 
 
 2. **Give User a Password**
    
 The new user needs a password
-add a password with the command:
-
-```passwd <username>```
-
-This command will prompt you to enter the password twice but won't display the typed password. 
-This is for security reasons.
+add a password with the command: ```passwd <username>```  
+This command will prompt you to enter the password twice but won't display the typed password. This is for security reasons.
 
 3. **Grant the user sudo command access**
 
@@ -35,9 +31,9 @@ To have access to the sudo command the user must be made a part of the sudo grou
 A group is collection of users in a linux OS.
 The sudo group is the name of the administrator group for debian.
 a user can be made a part of a group with the `usermod` command 
-We will be using these options to fit our needs.
-options:
--a : append to group (adds user to group)
+We will be using these options to fit our needs.  
+options:  
+-a : append to group (adds user to group)  
 -G : specifies a group name
 
 The final command to execute becomes:
@@ -74,7 +70,8 @@ exit the droplet with `exit`. Attempt to ssh into the droplet with your new user
 basically replace root with the username in your original ssh command
 
 if the droplet logs you in and the bash shell loads up this is what you want
-otherwise check your `ssh` command for any typos
+otherwise check your `ssh` command for any typos  
+
 if nothing else something went wrong with your user and you should restart from the beginning with step 1
 
 Attempt to use the sudo command to check your sudo permission
@@ -114,6 +111,7 @@ On your droplet installing nginx is simple just use `sudo apt install` using you
 
 You have now installed nginx
 You can verify that nginx is installed correctly by typing:
+
 ```curl <your-ip-address>```
 
 if you see the default html for nginx you were successful.
@@ -211,4 +209,10 @@ Test your server configuration with:
 If there is no errors your server is ready.
 Otherwise check steps 1-5 and ensure your symbolic link is correct.
 
+You can now access your new site using the same `curl` command from step 1
 
+```curl <your-ip-address>```
+
+If you now see your new website the configuration is complete. Congratulations!
+
+You now have made a new user and configured your first website.
