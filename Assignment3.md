@@ -209,6 +209,10 @@ Test your server configuration with:
 If there is no errors your server is ready.
 Otherwise check steps 1-5 and ensure your symbolic link is correct.
 
+Restart the nginx service with:
+
+```sudo systemctl restart nginx.service```
+
 You can now access your new site using the same `curl` command from step 1
 
 ```curl <your-ip-address>```
