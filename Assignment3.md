@@ -1,6 +1,6 @@
 # How to Create a Sudo User and Configure nginx on a DigitalOcean Droplet
 ## Part 1: Creating a Sudo User
-So you just created new debian droplet on Digital Ocean. It's best practice to have a sudo enabled user rather
+So, you just created new Debian droplet on Digital Ocean. It's best practice to have a sudo enabled user rather
 than working directly with the root user and disable remote SSH access to the root user. This is so your web 
 server can be protected from hackers looking to take control as the root has all permissions.
 
@@ -10,14 +10,14 @@ The first thing you should do with this new droplet is create a new user with `s
 Creating a user can be done by typing the command `useradd` but don't execute it quite yet because we are going to add options for a home directory and default shell.
 
 options:  
--m : creates a home directory for the user based on a skeleton directory in the OS  
--s : specifies the default shell for that user (we will be using bash as the default)
+-m: creates a home directory for the user based on a skeleton directory in the OS  
+-s: specifies the default shell for that user (we will be using bash as the default)
 
 The final command to execute becomes: 
 
 ```useradd -ms /bin/bash <username>```  
 
-Congratulations you now have a user but you aren't finished here. 
+Congratulations you now have a user, but you aren't finished here. 
 
 2. **Give User a Password**
    
@@ -28,18 +28,20 @@ This command will prompt you to enter the password twice but won't display the t
 3. **Grant the user sudo command access**
 
 To have access to the sudo command the user must be made a part of the sudo group.
-A group is collection of users in a linux OS.
-The sudo group is the name of the administrator group for debian.
+A group is collection of users in a Linux OS.
+The sudo group is the name of the administrator group for Debian.
 a user can be made a part of a group with the `usermod` command 
 We will be using these options to fit our needs.  
 options:  
--a : append to group (adds user to group)  
--G : specifies a group name
+-a: append to group (adds user to group).  
+-G: specifies a group name.
 
 The final command to execute becomes:
 ```usermod -aG sudo <username>```
 
-4. **Enable ssh for the new user**
+You have now added your user to the sudo group.
+
+4. **Enable ssh for the New User**
 
 The `ssh` command won't work automatically for your created user.
 This is a simple fix to enable this.
@@ -49,8 +51,8 @@ Using the root user type the command:
 
 This will copy the .ssh directory and all its contents with option -r from the root user home directory to the home directory of the new user.
 
-Now you must give the newly copied .ssh directory ownership under the new user using `chown`
-the syntax for chown is `chown [options] <username>:<groupname> <file>`.
+Now you must give the newly copied .ssh directory ownership under the new user using `chown`.  
+The syntax for chown is `chown [options] <username>:<groupname> <file>`.
 
 In our case the groupname and username will be the same.
 We will be using the -R option to give the directory and its contents the same ownership.
@@ -60,43 +62,43 @@ The final command will have the structure:
 
 You are now ready to test the new user.
 
-5. **Test your new user**
+5. **Test your New User**
 
 Now that your user is all configured it's good to test if it's working before the next step
 exit the droplet with `exit`. Attempt to ssh into the droplet with your new user with this command on your host:
 
 ```ssh -i <sshkey-path> <username>@<droplet-ip-address>```
 
-basically replace root with the username in your original ssh command
+Basically, replace root with the username in your original ssh command.
 
-if the droplet logs you in and the bash shell loads up this is what you want
-otherwise check your `ssh` command for any typos  
+if the droplet logs you in and the bash shell loads up this is what you want.  
+Otherwise, check your `ssh` command for any typos  
 
-if nothing else something went wrong with your user and you should restart from the beginning with step 1
+if nothing else something went wrong with your user, and you should restart from the beginning with step 1
 
-Attempt to use the sudo command to check your sudo permission
+Attempt to use the sudo command to check your sudo permission.
 
 ```sudo <anything>```
 
-If sudo is working it will ask for your password this is good.
-If not there is something wrong with your `usermod` command and you should restart from step 3.
+If sudo is working, it will ask for your password this is good.
+If not, there is something wrong with your `usermod` command and you should restart from step 3.
 
-Congratulations your new user now has sudo command access
+Congratulations your new user now has sudo command access.
 
 6. **Close access to the Remote Access to the root user**
 
 As your new user you need to find a edit the sshd_config file.
-This file is located in the /etc/ssh/ directory.
+This file is in the /etc/ssh/ directory.
 edit the file with vim (sudo is required)
 ```sudo vim /etc/ssh/sshd_config```
 
 in vim look for `PermitRootLogin yes`
 
-change `yes` to `no` using insert mode
+change `yes` to `no` using insert mode.
 
-restart ssh with:
+Restart the ssh service with:
 ```systemctl restart ssh.service```
-it will prompt your password
+It will prompt your password.
 
 now attempt to login your droplet with root user
 if it gives you permission denied you are done with part 1. Well done.
@@ -162,7 +164,7 @@ Inside `/etc/nginx/sites-available/` create a new file called `my-site.conf`
 ```sudo vim /etc/nginx/sites-available/my-site.conf```
 
 Copy this code into the newly created file:
-```
+```bash
 server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
@@ -184,14 +186,14 @@ This server block will configure nginx to display our my-site website on port 80
 
 4. **Enable the New Server Block**
 
-Now that you have created a server block configuration we now want to enable it so that nginx can serve your website contents.
+Now that you have created a server block configuration, we now want to enable it so that nginx can serve your website contents.
 
-To achieve this we must create a symbolic link to our server block configuration file inside the `/etc/nginx/sites-enabled/` directory.
-To create the link requires the command for our my-site.conf file:
+To achieve this, we must create a symbolic link to our server block configuration file inside the `/etc/nginx/sites-enabled/` directory.
+To create the link requires this command for our my-site.conf file:
 
 ```sudo ln -s /etc/nginx/sites-available/my-site.conf/ /etc/nginx/sites-enabled/my-site.conf/```
 
-We use -s to specify a symbolic link
+We use -s to specify a symbolic link.
 
 5. **Disable the nginx Default Server**
 
@@ -213,10 +215,10 @@ Restart the nginx service with:
 
 ```sudo systemctl restart nginx.service```
 
-You can now access your new site using the same `curl` command from step 1
+You can now access your new site using the same `curl` command from step 1.
 
 ```curl <your-ip-address>```
 
-If you now see your new website the configuration is complete. Congratulations!
+If you now, see your new website the configuration is complete. Congratulations!
 
 You now have made a new user and configured your first website.
